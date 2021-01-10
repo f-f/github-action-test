@@ -1,0 +1,16 @@
+name: build
+
+on:
+  issues:
+    types: [opened] # maybe also edited?
+  issue_comment:
+    types: [created]
+jobs:
+  build:
+    # This condition is here because the issue_comment event is triggered for
+    # PRs too
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: cat ${GITHUB_EVENT_PATH}/event.json
